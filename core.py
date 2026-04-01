@@ -17,7 +17,7 @@ class SourceGDZ(ABC):
 
     # Базовые ссылки на гдз
     BASE_URLS = {
-        "geometry": "https://gdz.top/7-klass/geometrija/atanasjan-fgos/",
+        "geometry": "https://gdz.top/7-klass/geometrija/atanasjan-fgos/{exercise}",
         "pomogalka": "https://pomogalka.me/8-klass/russkij-yazyk/pichugov-eremeeva/uprazhnenie-{exercise}/",
         "reshak": "https://reshak.ru/otvet/reshebniki.php?otvet={exercise}&predmet=pichugov8",
     }
@@ -26,51 +26,34 @@ class SourceGDZ(ABC):
     def open(self, exercise: str) -> None:
         pass
 
-    @abstractmethod
-    def is_valid(self, exercise: str):
-        pass
+    # Проверка валидности номера, введенного пользователем
+    # @abstractmethod
+    @staticmethod
+    def is_valid(exercise: str, subject: str) -> bool | None:
+        if subject == "1":
+            return int(exercise) in range(1, SourceGDZ.LAST_EXERCISES["GEOMETRY"])
+
+        elif subject == "2":
+            return int(exercise) in range(1, SourceGDZ.LAST_EXERCISES["RUSSIAN_OLD"])
+
+        else:
+            return None
 
 
 class GeometryGDZ(SourceGDZ):
-    # Проверка валидности номера, введенного пользователем
-    def is_valid(self, exercise: str) -> bool:
-        if int(exercise) in range(1, SourceGDZ.LAST_EXERCISES["GEOMETRY"]):
-            return True
-
-        else:
-            return False
-
     def open(self, exercise: str) -> None:
-        webbrowser.open(f"{SourceGDZ.BASE_URLS['geometry']}{exercise}")
+        webbrowser.open(SourceGDZ.BASE_URLS["geometry"].format(exercise=exercise))
 
 
-class RussianGDZ(SourceGDZ):
-    # Проверка валидности номера, введенного пользователем
-    def is_valid(self, exercise: str) -> bool:
-        if int(exercise) in range(1, SourceGDZ.LAST_EXERCISES["RUSSIAN_OLD"]):
-            return True
-
-        else:
-            return False
-
-    def open(self, exercise: str, gdz: str) -> None:
-        pomogalka = Pomogalka()
-        reshak = Reshak()
-        if gdz == "1":
-            pomogalka.open(exercise)
-
-        elif gdz == "2":
-            reshak.open(exercise)
-
-
-class Pomogalka(RussianGDZ):
+class Pomogalka(SourceGDZ):
     def open(self, exercise: str) -> None:
         webbrowser.open(SourceGDZ.BASE_URLS["pomogalka"].format(exercise=exercise))
 
 
-class Reshak(RussianGDZ):
+class Reshak(SourceGDZ):
     # Парсит номер упражнения из решака
-    def parse_num_of_exercise(exercise: str) -> str:
+    @staticmethod
+    def parse_num_of_exercise(exercise: str) -> str | None:
 
         headers = {"user-agent": UserAgent().random}
         URL = "https://reshak.ru/reshebniki/russkijazik/8/pechugov/index.html"
