@@ -34,7 +34,7 @@ class SourceGDZ(ABC):
 class GeometryGDZ(SourceGDZ):
     # Проверка валидности номера, введенного пользователем
     def is_valid(self, exercise: str) -> bool:
-        if exercise in range(1, SourceGDZ.LAST_EXERCISES["GEOMETRY"]):
+        if int(exercise) in range(1, SourceGDZ.LAST_EXERCISES["GEOMETRY"]):
             return True
 
         else:
