@@ -29,7 +29,7 @@ class SourceGDZ(ABC):
     # Проверка валидности номера, введенного пользователем
     # @abstractmethod
     @staticmethod
-    def is_valid(exercise: str, subject: str) -> bool | None:
+    def is_valid(exercise: str, subject: str) -> bool:
         if subject == "1":
             return int(exercise) in range(1, SourceGDZ.LAST_EXERCISES["GEOMETRY"])
 
@@ -37,7 +37,7 @@ class SourceGDZ(ABC):
             return int(exercise) in range(1, SourceGDZ.LAST_EXERCISES["RUSSIAN_OLD"])
 
         else:
-            return None
+            return False
 
 
 class GeometryGDZ(SourceGDZ):
@@ -54,13 +54,12 @@ class Reshak(SourceGDZ):
     # Парсит номер упражнения из решака
     @staticmethod
     def parse_num_of_exercise(exercise: str) -> str | None:
-
-        headers = {"user-agent": UserAgent().random}
-        URL = "https://reshak.ru/reshebniki/russkijazik/8/pechugov/index.html"
-        response = requests.get(URL, headers=headers, timeout=15)
-        soup = BeautifulSoup(response.text, "lxml")
-
         try:
+            headers = {"user-agent": UserAgent().random}
+            URL = "https://reshak.ru/reshebniki/russkijazik/8/pechugov/index.html"
+            response = requests.get(URL, headers=headers, timeout=15)
+            soup = BeautifulSoup(response.text, "lxml")
+
             all_exercises = soup.find("div", class_="razdel").find_all("a")
             for ex in all_exercises:
                 new_ex = ex.find(string=True).strip()
@@ -73,7 +72,7 @@ class Reshak(SourceGDZ):
             print(f"Произошла ошибка соединения {e}!")
 
         except AttributeError as e:
-            print(f"Произошла ошибка {e}!")
+            print(f"Ошибка парсинга {e}!")
 
     def open(self, exercise: str) -> None:
         ex = Reshak.parse_num_of_exercise(exercise)
