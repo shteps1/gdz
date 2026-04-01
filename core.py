@@ -83,9 +83,8 @@ class Reshak(RussianGDZ):
                 new_ex = ex.find(string=True).strip()
                 old_ex = ex.find("span")
 
-                if old_ex:
-                    if old_ex.text.strip("()") == exercise:
-                        return new_ex
+                if old_ex and old_ex.text.strip("()") == exercise:
+                    return new_ex
 
         except requests.exceptions.RequestException as e:
             print(f"Произошла ошибка соединения {e}!")

@@ -5,14 +5,13 @@ def main():
     exercise = input("Введите номер задание: ")
     subject = input("Выберите предмет 1[Геометрия] 2[Русский язык]: ")
     gdz = input("Выберите гдз 1[Помогалка] 2[Решак]: ")
-    
+
     geometry_gdz = GeometryGDZ()
     russian_gdz = RussianGDZ()
-    
+
     # Проверка валидности номера, введенного пользователем
     geometry_exercise_validation = geometry_gdz.is_valid(exercise)
     russian_exercise_validation = russian_gdz.is_valid(exercise)
-    print(russian_exercise_validation)
 
     if subject == "1" and geometry_exercise_validation:
         geometry_gdz.open(exercise=exercise)
