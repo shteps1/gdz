@@ -8,8 +8,9 @@ from fake_useragent import UserAgent
 
 class SourceGDZ(ABC):
     # Константы
-    # Последние упражнения в гдз + 1, т.к range проверяет до значения(Не включительно)
+    # !Последние упражнения в гдз + 1, т.к range() проверяет до значения т.е Не включительно!
     LAST_EXERCISES = {
+        "ALGEBRA": 1341,  # 1340 в учебнике
         "GEOMETRY": 1432,  # 1431 в учебнике
         "RUSSIAN_OLD": 514,  # 513 в учебнике
         "RUSSIAN_NEW": 565,  # 564 в учебнике
@@ -17,9 +18,10 @@ class SourceGDZ(ABC):
 
     # Базовые ссылки на гдз
     BASE_URLS = {
-        "geometry": "https://gdz.top/7-klass/geometrija/atanasjan-fgos/{exercise}",
-        "pomogalka": "https://pomogalka.me/8-klass/russkij-yazyk/pichugov-eremeeva/uprazhnenie-{exercise}/",
-        "reshak": "https://reshak.ru/otvet/reshebniki.php?otvet={exercise}&predmet=pichugov8",
+        "ALGEBRA": "https://gdz.ru/class-8/algebra/makarychev-8/{exercise}-nom/",
+        "GEOMETRY": "https://gdz.top/7-klass/geometrija/atanasjan-fgos/{exercise}",
+        "POMOGALKA": "https://pomogalka.me/8-klass/russkij-yazyk/pichugov-eremeeva/uprazhnenie-{exercise}/",
+        "RESHAK": "https://reshak.ru/otvet/reshebniki.php?otvet={exercise}&predmet=pichugov8",
     }
 
     @abstractmethod
@@ -36,21 +38,28 @@ class SourceGDZ(ABC):
         elif subject == "2":
             return int(exercise) in range(1, SourceGDZ.LAST_EXERCISES["RUSSIAN_OLD"])
 
+        elif subject == "3":
+            return int(exercise) in range(1, SourceGDZ.LAST_EXERCISES["ALGEBRA"])
+
         else:
             return False
 
 
 class GeometryGDZ(SourceGDZ):
     def open(self, exercise: str) -> None:
-        webbrowser.open(SourceGDZ.BASE_URLS["geometry"].format(exercise=exercise))
-
-
-class Pomogalka(SourceGDZ):
+        webbrowser.open(SourceGDZ.BASE_URLS["GEOMETRY"].format(exercise=exercise))
+        
+class AlgebraGDZ(SourceGDZ):
     def open(self, exercise: str) -> None:
-        webbrowser.open(SourceGDZ.BASE_URLS["pomogalka"].format(exercise=exercise))
+        webbrowser.open(SourceGDZ.BASE_URLS["ALGEBRA"].format(exercise=exercise))
 
 
-class Reshak(SourceGDZ):
+class PomogalkaGDZ(SourceGDZ):
+    def open(self, exercise: str) -> None:
+        webbrowser.open(SourceGDZ.BASE_URLS["POMOGALKA"].format(exercise=exercise))
+
+
+class ReshakGDZ(SourceGDZ):
     # Парсит номер упражнения из решака
     @staticmethod
     def parse_num_of_exercise(exercise: str) -> str | None:
@@ -75,5 +84,5 @@ class Reshak(SourceGDZ):
             print(f"Ошибка парсинга {e}!")
 
     def open(self, exercise: str) -> None:
-        ex = Reshak.parse_num_of_exercise(exercise)
-        webbrowser.open(SourceGDZ.BASE_URLS["reshak"].format(exercise=ex))
+        ex = self.parse_num_of_exercise(exercise)
+        webbrowser.open(SourceGDZ.BASE_URLS["RESHAK"].format(exercise=ex))

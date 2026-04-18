@@ -1,9 +1,9 @@
-from core import GeometryGDZ, Pomogalka, Reshak, SourceGDZ
+from core import GeometryGDZ, AlgebraGDZ, PomogalkaGDZ, ReshakGDZ, SourceGDZ
 
 
 def main():
     exercise = input("Введите номер задание: ")
-    subject = input("Выберите предмет 1[Геометрия] 2[Русский язык]: ")
+    subject = input("Выберите предмет 1[Геометрия] 2[Русский язык] 3[Алгебра]: ")
 
     # Проверка валидности номера, введенного пользователем
     exercise_validation = SourceGDZ.is_valid(exercise, subject)
@@ -16,15 +16,19 @@ def main():
         gdz = input("Выберите гдз 1[Помогалка] 2[Решак]: ")
 
         if gdz == "1":
-            pomogalka = Pomogalka()
+            pomogalka = PomogalkaGDZ()
             pomogalka.open(exercise)
 
         elif gdz == "2":
-            reshak = Reshak()
+            reshak = ReshakGDZ()
             reshak.open(exercise)
-            
+
         else:
             print("Неверно выбрано гдз!")
+
+    elif subject == "1" and exercise_validation:
+        algebra_gdz = AlgebraGDZ()
+        algebra_gdz.open(exercise=exercise)
 
     else:
         print("Выбран неправильный предмет или Неверно введен номер задания!")
