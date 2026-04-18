@@ -26,7 +26,7 @@ def main():
         else:
             print("Неверно выбрано гдз!")
 
-    elif subject == "1" and exercise_validation:
+    elif subject == "3" and exercise_validation:
         algebra_gdz = AlgebraGDZ()
         algebra_gdz.open(exercise=exercise)
 
