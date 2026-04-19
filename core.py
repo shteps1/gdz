@@ -25,8 +25,12 @@ class SourceGDZ(ABC):
     }
 
     @abstractmethod
-    def open(self, exercise: str) -> None:
+    def get_link(self, exercise: str) -> None:
         pass
+
+    
+    def open(self, exercise: str) -> None:
+        webbrowser.open(self.get_link(exercise))
 
     # Проверка валидности номера, введенного пользователем
     # @abstractmethod
@@ -46,17 +50,21 @@ class SourceGDZ(ABC):
 
 
 class GeometryGDZ(SourceGDZ):
-    def open(self, exercise: str) -> None:
-        webbrowser.open(SourceGDZ.BASE_URLS["GEOMETRY"].format(exercise=exercise))
-        
+    def get_link(self, exercise: str) -> None:
+        link = self.BASE_URLS["GEOMETRY"].format(exercise=exercise)
+        return link
+
+
 class AlgebraGDZ(SourceGDZ):
-    def open(self, exercise: str) -> None:
-        webbrowser.open(SourceGDZ.BASE_URLS["ALGEBRA"].format(exercise=exercise))
+    def get_link(self, exercise: str) -> None:
+        link = self.BASE_URLS["ALGEBRA"].format(exercise=exercise)
+        return link
 
 
 class PomogalkaGDZ(SourceGDZ):
-    def open(self, exercise: str) -> None:
-        webbrowser.open(SourceGDZ.BASE_URLS["POMOGALKA"].format(exercise=exercise))
+    def get_link(self, exercise: str) -> None:
+        link = self.BASE_URLS["POMOGALKA"].format(exercise=exercise)
+        return link
 
 
 class ReshakGDZ(SourceGDZ):
@@ -83,6 +91,7 @@ class ReshakGDZ(SourceGDZ):
         except AttributeError as e:
             print(f"Ошибка парсинга {e}!")
 
-    def open(self, exercise: str) -> None:
+    def get_link(self, exercise: str) -> None:
         ex = self.parse_num_of_exercise(exercise)
-        webbrowser.open(SourceGDZ.BASE_URLS["RESHAK"].format(exercise=ex))
+        link = self.BASE_URLS["RESHAK"].format(exercise=ex)
+        return link
