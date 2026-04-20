@@ -28,7 +28,7 @@ pip install requests beautifulsoup4 lxml fake-useragent)
 ```
 
 Запустите программу(main.pu):
-1. С помощью uv [[https://docs.astral.sh/uv/]]
+1. С помощью пакетного менеджера [uv](https://docs.astral.sh/uv/)
 ``` bash
 uv run main.py
 ```
