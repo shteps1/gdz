@@ -11,9 +11,13 @@
  ```
  
 Установите зависимости:
+1. С помощью uv [[https://docs.astral.sh/uv/]]
 ``` bash
-pip install -r requirements.txt  
-
+uv sync
+```
+2. С помощью pip
+``` bash
+pip install .
 ```
 
 (Если файла нет, создайте его или установите вручную: 
@@ -22,13 +26,19 @@ pip install requests beautifulsoup4 lxml fake-useragent)
 
 ```
 
-Запустите программу:
+Запустите программу(main.pu):
+1. С помощью uv [[https://docs.astral.sh/uv/]]
+``` bash
+uv run main.py
+```
+2. С помощью pip
 ``` bash
 python main.py
 ```
+
  
 #### 🛠 Технологии
-* Python 3.10+
+* Python 3.13+
 
 * Requests — для сетевых запросов.
 
@@ -41,8 +51,9 @@ python main.py
 #### 📝 Предметы и источники
 На данный момент поддерживаются:
 
-* Геометрия (7 класс): Источник gdz.top (Атанасян).
+* Геометрия (7-9 класс): Источник gdz.top (Атанасян).
 * Русский язык (8 класс): Источники pomogalka.me и reshak.ru (Пичугов).
+* Алгебра (8 класс): Источники gdz.ru
 
 #### 👨‍💻 Автор
 
