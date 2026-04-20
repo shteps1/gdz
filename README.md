@@ -7,7 +7,6 @@
 Клонируйте репозиторий:
  ``` bash
  git clone https://github.com/shteps1/gdz.git
- cd gdz
  ```
  
 Установите зависимости:
@@ -19,8 +18,7 @@ uv sync
 ``` bash
 pip install .
 ```
-
-(Если файла нет, создайте его или установите вручную: 
+3. Вручную: 
 ``` bash
 pip install requests beautifulsoup4 lxml fake-useragent)
 
